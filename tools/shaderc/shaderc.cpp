@@ -13,7 +13,7 @@ extern "C"
 #include <fpp.h>
 } // extern "C"
 
-#define BGFX_SHADER_BIN_VERSION 9
+#define BGFX_SHADER_BIN_VERSION 11
 #define BGFX_CHUNK_MAGIC_CSH BX_MAKEFOURCC('C', 'S', 'H', BGFX_SHADER_BIN_VERSION)
 #define BGFX_CHUNK_MAGIC_FSH BX_MAKEFOURCC('F', 'S', 'H', BGFX_SHADER_BIN_VERSION)
 #define BGFX_CHUNK_MAGIC_VSH BX_MAKEFOURCC('V', 'S', 'H', BGFX_SHADER_BIN_VERSION)
@@ -104,7 +104,7 @@ namespace bgfx
 		{  ShadingLang::HLSL,  500,    "s_5_0"      },
 		{  ShadingLang::Metal, 1000,   "metal"      },
 		{  ShadingLang::PSSL,  1000,   "pssl"       },
-		{  ShadingLang::SpirV, 1331,   "spirv13-11" },
+		{  ShadingLang::SpirV, 1311,   "spirv13-11" },
 		{  ShadingLang::SpirV, 1411,   "spirv14-11" },
 		{  ShadingLang::SpirV, 1512,   "spirv15-12" },
 		{  ShadingLang::SpirV, 1010,   "spirv10-10" },
@@ -1453,6 +1453,14 @@ namespace bgfx
 				bx::write(_writer, uint8_t(0) );
 
 				compiled = true;
+			}
+			else if (profile->lang == ShadingLang::Metal)
+			{
+				compiled = compileMetalShader(_options, BX_MAKEFOURCC('M', 'T', 'L', 0), input, _writer);
+			}
+			else if (profile->lang == ShadingLang::SpirV)
+			{
+				compiled = compileSPIRVShader(_options, profile->id, input, _writer);
 			}
 			else if (profile->lang == ShadingLang::PSSL)
 			{
