@@ -7,3 +7,9 @@ tags
 .gdb_history
 .vscode
 *.TMP
+
+!.build/projects/vs2019/bgfx.*.*
+!.build/projects/vs2019/bx.*.*
+!.build/projects/vs2019/bimg.*.*
+
+.build/projects/vs2019/bgfx.sln
